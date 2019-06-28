@@ -395,13 +395,13 @@ proc min*[N,T](val: T; v: Vec[N,T]): Vec[N,T] =
   for i in 0 ..< N:
     result.arr[i] = min(val, v.arr[i])
 
-proc mix*[T: SomeNumber](x,y,a: T): T =
+proc mix*[T: SomeNumber](x,y,a: T): T {.inline, noinit.} =
   x * (T(1) - a) + y * a
 
-proc mix*[N,T](v1,v2: Vec[N,T]; a: T): Vec[N,T] =
+proc mix*[N,T](v1,v2: Vec[N,T]; a: T): Vec[N,T] {.inline, noinit.} =
   v1 * (T(1) - a) + v2 * a
 
-proc mix*[N,T](v1,v2,a: Vec[N,T]): Vec[N,T] =
+proc mix*[N,T](v1,v2,a: Vec[N,T]): Vec[N,T] {.inline, noinit.} =
   # untested
   v1 * (T(1) - a) + v2 * a
 
