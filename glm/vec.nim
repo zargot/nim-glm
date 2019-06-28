@@ -85,15 +85,15 @@ proc columnFormat*[N,T](v: Vec[N, T]) : array[N,string] =
 template mathPerComponent(op: untyped): untyped =
   # TODO this is a good place for simd optimization
 
-  proc op*[N,T](v,u: Vec[N,T]): Vec[N,T] {.inline.} =
+  proc op*[N,T](v,u: Vec[N,T]): Vec[N,T] {.inline, noinit.} =
     for ii in 0 ..< N:
       result.arr[ii] = op(v.arr[ii], u.arr[ii])
 
-  proc op*[N,T](v: Vec[N,T]; val: T): Vec[N,T] {.inline.} =
+  proc op*[N,T](v: Vec[N,T]; val: T): Vec[N,T] {.inline, noinit.} =
     for ii in 0 ..< N:
       result.arr[ii] = op(v.arr[ii], val)
 
-  proc op*[N,T](val: T; v: Vec[N,T]): Vec[N,T] {.inline.} =
+  proc op*[N,T](val: T; v: Vec[N,T]): Vec[N,T] {.inline, noinit.} =
     for ii in 0 ..< N:
       result.arr[ii] = op(val, v.arr[ii])
 
