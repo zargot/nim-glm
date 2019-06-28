@@ -86,16 +86,28 @@ template mathPerComponent(op: untyped): untyped =
   # TODO this is a good place for simd optimization
 
   proc op*[N,T](v,u: Vec[N,T]): Vec[N,T] {.inline, noinit.} =
-    for ii in 0 ..< N:
-      result.arr[ii] = op(v.arr[ii], u.arr[ii])
+    when N == 2:
+      result.arr[0] = op(v.arr[0], u.arr[0])
+      result.arr[1] = op(v.arr[1], u.arr[1])
+    else:
+      for ii in 0 ..< N:
+        result.arr[ii] = op(v.arr[ii], u.arr[ii])
 
   proc op*[N,T](v: Vec[N,T]; val: T): Vec[N,T] {.inline, noinit.} =
-    for ii in 0 ..< N:
-      result.arr[ii] = op(v.arr[ii], val)
+    when N == 2:
+      result.arr[0] = op(v.arr[0], val)
+      result.arr[1] = op(v.arr[1], val)
+    else:
+      for ii in 0 ..< N:
+        result.arr[ii] = op(v.arr[ii], val)
 
   proc op*[N,T](val: T; v: Vec[N,T]): Vec[N,T] {.inline, noinit.} =
-    for ii in 0 ..< N:
-      result.arr[ii] = op(val, v.arr[ii])
+    when N == 2:
+      result.arr[0] = op(val v.arr[0])
+      result.arr[1] = op(val v.arr[1])
+    else:
+      for ii in 0 ..< N:
+        result.arr[ii] = op(val, v.arr[ii])
 
 mathPerComponent(`+`)
 mathPerComponent(`-`)
