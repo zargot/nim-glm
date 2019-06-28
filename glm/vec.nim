@@ -470,8 +470,11 @@ proc step*[N,T](edge: T; x: Vec[N,T]): Vec[N,T] =
 proc dot*[N,T](u,v: Vec[N,T]): T {.inline, noinit.} =
   # TODO this really should have some simd optimization
   # matrix multiplication is based on this
-  for i in 0 ..< N:
-    result += u[i] * v[i]
+  when N == 2:
+    result = v.arr[0] * u.arr[0] + v.arr[1] * u.arr[1]
+  else:
+    for i in 0 ..< N:
+      result += u[i] * v[i]
 
 proc length2*(v: Vec): auto = dot(v,v)
 proc length*(v: Vec): auto = sqrt(dot(v,v))
