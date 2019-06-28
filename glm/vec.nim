@@ -455,7 +455,7 @@ proc step*[N,T](edge: T; x: Vec[N,T]): Vec[N,T] =
 # Geometric Functions #
 #######################
 
-proc dot*[N,T](u,v: Vec[N,T]): T {. inline .} =
+proc dot*[N,T](u,v: Vec[N,T]): T {.inline, noinit.} =
   # TODO this really should have some simd optimization
   # matrix multiplication is based on this
   for i in 0 ..< N:
