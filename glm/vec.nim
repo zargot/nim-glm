@@ -117,13 +117,21 @@ mathPerComponent(`div`)
 mathPerComponent(`mod`)
 
 template mathInpl(opName): untyped =
-  proc opName*[N,T](v: var Vec[N,T]; u: Vec[N,T]): void =
-    for ii in 0 ..< N:
-      opName(v.arr[ii], u.arr[ii])
+  proc opName*[N,T](v: var Vec[N,T]; u: Vec[N,T]): void {.inline, noinit.} =
+    when N == 2:
+      opName(v.arr[0], u.arr[0])
+      opName(v.arr[1], u.arr[1])
+    else:
+      for ii in 0 ..< N:
+        opName(v.arr[ii], u.arr[ii])
 
-  proc opName*[N,T](v: var Vec[N,T]; x: T): void =
-    for ii in 0 ..< N:
-      opName(v.arr[ii], x)
+  proc opName*[N,T](v: var Vec[N,T]; x: T): void {.inline, noinit.} =
+    when N == 2:
+      opName(v.arr[0], x)
+      opName(v.arr[1], x)
+    else:
+      for ii in 0 ..< N:
+        opName(v.arr[ii], x)
 
 mathInpl(`+=`)
 mathInpl(`-=`)
