@@ -476,8 +476,8 @@ proc dot*[N,T](u,v: Vec[N,T]): T {.inline, noinit.} =
     for i in 0 ..< N:
       result += u[i] * v[i]
 
-proc length2*(v: Vec): auto = dot(v,v)
-proc length*(v: Vec): auto = sqrt(dot(v,v))
+proc length2*(v: Vec): auto {.inline, noinit.} = dot(v,v)
+proc length*(v: Vec): auto {.inline, noinit.} = sqrt(dot(v,v))
 
 proc cross*[T](v1,v2:Vec[3,T]): Vec[3,T] =
   v1.yzx * v2.zxy - v1.zxy * v2.yzx
